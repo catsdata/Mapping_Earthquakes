@@ -20,7 +20,11 @@ let line = [
 
 // Create a polyline using the line coordinates and make the line red or yellow.
 L.polyline(line, {
-  color: "yellow"
+  // https://leafletjs.com/SlavaUkraini/reference-1.6.0.html#polyline-option
+  dashArray: "5",
+  color: "blue",
+  weight: "4",
+  opacity: "0.5",
 }).addTo(map);
 
 
@@ -74,9 +78,7 @@ let cityData = cities;
 // radius indicates to vary size of marker based on population
 cityData.forEach(function(city) {
     console.log(city)
-    L.circleMarker(city.location, {
-    radius: city.population/100000
-    })
+    L.circleMarker(city.location) //{, radius: city.population/100000}
     // To add data from each object in the cities array, we'll use Leaflet's bindPopup() method on the marker() function
     // .toLocaleString() will add commas in population
     .bindPopup("<h2>" + city.city + ", " + city.state + "</h2> <hr> <h3>Population " + city.population.toLocaleString() + "</h3>")
@@ -84,7 +86,7 @@ cityData.forEach(function(city) {
 });
 
 // We create the tile layer that will be the background of our map (see Mapbox Static Tiles API for more sytles).
-let streets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+let streets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     accessToken: API_KEY
@@ -93,3 +95,7 @@ attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap
 // Then we add our 'graymap' tile layer to the map.
 streets.addTo(map);
 
+// SKILL DRILL
+// Edit your logic.js to create an airline route from SFO to John F. Kennedy International Airport (JFK) with two stops:
+// Austin-Bergstrom International Airport (AUS) and Toronto Pearson International Airport (YYZ). 
+// Make the route a blue dashed line, with a weight of 4 and opacity of 0.5 on the light map.
