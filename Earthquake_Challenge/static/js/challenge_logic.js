@@ -24,8 +24,8 @@ let outdoors = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/outdoors-v11
 
 // Create the map object with center, zoom level and default layer.
 let map = L.map('mapid', {
-	center: [40.7, -94.5],
-	zoom: 3,
+	center: [20.6, -8.8],
+	zoom: 2,
 	layers: [streets]
 });
 
@@ -37,15 +37,18 @@ let baseMaps = {
   "Topographic": outdoors
 };
 
-// 1. Add a 2nd layer group for the tectonic plate data.
+// DELIVERABLE 1 - Step 1: Add a 2nd layer group for the tectonic plate data.
+// DELIVERABLE 2 - Step 1: Add a 3rd layer group for the major earthquake data.
 let allEarthquakes = new L.LayerGroup();
 let tectonic = new L.LayerGroup();
+let majorQuake = new L.LayerGroup();
 
-
-// 2. Add a reference to the tectonic plates group to the overlays object.
+// DELIVERABLE 1 - Step 2: Add a reference to the tectonic plates group to the overlays object.
+// DELIVERABLE 2 - Step 2: Add a reference to the major earthquake group to the overlays object.
 let overlays = {
   "Earthquakes": allEarthquakes,
-  "Tectonic Plates": tectonic
+  "Tectonic Plates": tectonic,
+  "Major Earthquakes": majorQuake
 };
 
 // Then we add a control to the map that will allow the user to change which
@@ -118,6 +121,65 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
   // Then we add the earthquake layer to our map.
   allEarthquakes.addTo(map);
 
+
+// DELIVERABLE 2 - Step 3: Retrieve the major earthquake GeoJSON data >4.5 mag for the week.
+d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson").then(function(data) {
+
+  // DELIVERABLE 2 - Step 4: Use the same style as the earthquake data.
+  function styleInfo(feature) {
+    return {
+      opacity: 1,
+      fillOpacity: 1,
+      fillColor: getColor(feature.properties.mag),
+      color: "#000000",
+      radius: getRadius(feature.properties.mag),
+      stroke: true,
+      weight: 0.5
+    };
+  }
+  
+  // DELIVERABLE 2 - Step 5: Change the color function to use three colors for the major earthquakes based on the magnitude of the earthquake.
+  function getColor(magnitude) {
+    if (magnitude > 6) {
+      return "#DC143C";
+    }
+    if (magnitude > 5) {
+      return "#FF8C00";
+    }
+    if (magnitude >= 4.5) {
+      return "#FFD700";
+    }
+    return "#F0E68C";
+  }
+  
+  // DELIVERABLE 2 - Step 6: Use the function that determines the radius of the earthquake marker based on its magnitude.
+  function getRadius(magnitude) {
+    if (magnitude === 0) {
+      return 1;
+    }
+    return magnitude * 4;
+  }
+  
+  // DELIVERABLE 2 - Step 7: Creating a GeoJSON layer with the retrieved data that adds a circle to the map 
+  // sets the style of the circle, and displays the magnitude and location of the earthquake
+  //  after the marker has been created and styled.
+  L.geoJson(data, {
+    pointToLayer: function(feature, latlng) {
+      console.log(data);
+      return L.circleMarker(latlng);
+    },
+  style: styleInfo,
+  onEachFeature: function(feature, layer) {
+    layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
+  }
+  }).addTo(majorQuake);
+  // DELIVERABLE 2 - Step 8: Add the major earthquakes layer to the map.
+  
+  // DELIVERABLE 2 - Step 9: Close the braces and parentheses for the major earthquake data.
+  majorQuake.addTo(map);
+  });
+
+
   // Here we create a legend control object.
 let legend = L.control({
   position: "bottomright"
@@ -151,27 +213,27 @@ legend.onAdd = function() {
   legend.addTo(map);
 
 
-  // 3. Use d3.json to make a call to get our Tectonic Plate geoJSON data.
+// DELIVERABLE 1 - Step 3: Use d3.json to make a call to get our Tectonic Plate geoJSON data.
   
-  let tectonicPlates = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
+let tectonicPlates = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
   
-  let techStyle = {
-    color: "#0000FF",
-    fillColor: "#FFFF00",
-    weight: 2
-  }
+let techStyle = {
+  color: "#0000FF",
+  fillColor: "#FFFF00",
+  weight: 2
+}
   
-  d3.json(tectonicPlates).then(function(data) {
-    console.log(data);
-    L.geoJSON(data, {
-      style: techStyle
-    }).addTo(map);
+d3.json(tectonicPlates).then(function(data) {
+  console.log(data);
+  L.geoJSON(data, {
+    style: techStyle
+  }).addTo(map);
   // Style the lines with a color and weight that will make it stand out on all maps.
   // Add the tectonic layer group variable you created in Step 1 to the map, i.e., .addTo(tectonicPlates) and close the geoJSON() layer.
   // Next, add the tectonic layer group variable to the map, i.e, tectonicPlates.addTo(map).
   // Finally, close the d3.json() callback.
-  });
+});
 
 });
 
-tectonicPlates.addTo(map);
+tectonic.addTo(map);
