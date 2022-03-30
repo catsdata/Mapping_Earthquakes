@@ -163,6 +163,8 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geoj
   // DELIVERABLE 2 - Step 7: Creating a GeoJSON layer with the retrieved data that adds a circle to the map 
   // sets the style of the circle, and displays the magnitude and location of the earthquake
   //  after the marker has been created and styled.
+  // DELIVERABLE 2 - Step 8: Add the major earthquakes layer to the map.
+  // DELIVERABLE 2 - Step 9: Close the braces and parentheses for the major earthquake data.
   L.geoJson(data, {
     pointToLayer: function(feature, latlng) {
       console.log(data);
@@ -173,9 +175,7 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geoj
     layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
   }
   }).addTo(majorQuake);
-  // DELIVERABLE 2 - Step 8: Add the major earthquakes layer to the map.
-  
-  // DELIVERABLE 2 - Step 9: Close the braces and parentheses for the major earthquake data.
+
   majorQuake.addTo(map);
   });
 
@@ -215,25 +215,21 @@ legend.onAdd = function() {
 
 // DELIVERABLE 1 - Step 3: Use d3.json to make a call to get our Tectonic Plate geoJSON data.
   
-let tectonicPlates = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
-  
-let techStyle = {
-  color: "#0000FF",
-  fillColor: "#FFFF00",
-  weight: 2
-}
-  
-d3.json(tectonicPlates).then(function(data) {
-  console.log(data);
-  L.geoJSON(data, {
-    style: techStyle
-  }).addTo(map);
   // Style the lines with a color and weight that will make it stand out on all maps.
   // Add the tectonic layer group variable you created in Step 1 to the map, i.e., .addTo(tectonicPlates) and close the geoJSON() layer.
   // Next, add the tectonic layer group variable to the map, i.e, tectonicPlates.addTo(map).
   // Finally, close the d3.json() callback.
-});
 
+d3.json("https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json").then(function(data) {
+  console.log(data);
+  L.geoJSON(data, {
+    color: "#0000FF",
+    fillColor: "#FFFF00",
+    weight: 2
+  }).addTo(tectonic);
 });
 
 tectonic.addTo(map);
+
+});
+
