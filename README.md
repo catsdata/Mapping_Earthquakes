@@ -35,7 +35,7 @@ The earthquake map has been created with two different maps and the earthquake o
 - Data Sources: 
     - [Weekly Earthquakes](https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson)
     - [Major Earthquakes](https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson)
-    - [Techtonic Plates](https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json)
+    - [Tectonic Plates](https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json)
 
 - Languages:  
     - Javascript
@@ -75,6 +75,13 @@ The earthquake map has been created with two different maps and the earthquake o
     - The third map is added to the overlay object 
     - All the earthquake data and tectonic plate data are displayed on the all maps of the webpage
 
+Challenge was completed as tasked and listed above:
+
+![challenge](https://github.com/catsdata/Mapping_Earthquakes/Earthquake_Challenge/ChallengeResults.png)
+
+However, with the addition of major earthquakes specific data and the task to update the colors of the 3 top magnitude groupings of such, the legend no longer properly identified magnitudes by color regardless of layer.  The original color scheme was in whole numbers, and we now had to contend with a 4.5.  Therefore, I updated the legend code amd colors of both the earthquakes and major earthquakes layers to properly indicate magnitude the same manner.  Through debugging, I noticed that having the tectonic polygons as a final GeoJSON, it was making the initial load of the html look cluttered, so I rearranged the d3's in order of preference and cleaned up the notes.  
+
+![challengefix](https://github.com/catsdata/Mapping_Earthquakes/Earthquake_Challenge/ChallengeFix.png)
 
 
 ## Summary
