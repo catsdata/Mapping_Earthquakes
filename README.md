@@ -33,15 +33,21 @@ The earthquake map has been created with two different maps and the earthquake o
 ## Resources
 
 - Data Sources: 
-    - [file1](http)
-    - [file2](http)
-- Software/File Types:  
+    - [Weekly Earthquakes](https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson)
+    - [Major Earthquakes](https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson)
+    - [Techtonic Plates](https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json)
+
+- Languages:  
     - Javascript
     - HTML
-    - Leaflet
-    - GeoJSON
     - CSS
-    - D3 (js)
+
+- Libraries & Formats:
+    - GeoJSON
+    - Leaflet
+    - D3.js
+    - Mapbox (API's)
+
 
 ## Results
 
@@ -68,6 +74,8 @@ The earthquake map has been created with two different maps and the earthquake o
     - A third map tile layer is created
     - The third map is added to the overlay object 
     - All the earthquake data and tectonic plate data are displayed on the all maps of the webpage
+
+
 
 ## Summary
 
